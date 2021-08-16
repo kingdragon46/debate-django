@@ -3,6 +3,9 @@
 
 A brief description of what this project does and who it's for
 
+## Authors
+
+- [@kingdragon46](https://www.github.com/kingdragon46)
 
 ## Documentation
 
@@ -22,9 +25,7 @@ A brief description of what this project does and who it's for
  Debater can suggest a new debate topic
  Debaters should be searchable
  Debate List should be searchable
-## Authors
 
-- [@kingdragon46](https://www.github.com/kingdragon46)
 
   
 ## Run Locally

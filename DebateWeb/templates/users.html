@@ -1,0 +1,95 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Debate {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="pcoded-content">
+    <div class="pcoded-inner-content">
+        <div class="main-body">
+            <div class="page-wrapper">
+                <!-- [ Main Content ] start -->
+                <div class="col-xl-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Users List</h4>
+                        </div>
+                        <div class="card-block table-border-style">
+                            <div class="table-responsive">
+                                <table class="text-center table table-bordered"
+                                    id="tbleCust">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">SR.No</th>
+                                            <th scope="col">User</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Debates</th>
+                                            <th scope="col">Won</th>
+                                            <th scope="col">Lost</th>
+                                            <th scope="col">Points</th>
+                                            {% if request.user.user_type == '1' or request.user.is_superuser %}
+                                            <th scope="col">User Role</th>
+                                            <th scope="col">Ban User</th>
+                                            <th scope="col" data-priority="1">Delete</th>
+                                            {% endif %}
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for SR in usr %}
+                                        <tr>
+                                            <td scope="col">{{ forloop.counter }}</td>
+                                            <td scope="col"><a href="{% url 'profile' SR.pk %}" target="__blank">{{ SR.first_name }}
+                                                {{SR.last_name}}</a></td>
+                                            <td scope="col">{{SR.email}}</td>
+                                            <td scope="col">{{SR.debates}}</td>
+                                            <td scope="col">{{SR.debates_won}}</td>
+                                            <td scope="col">{{SR.debates_lost}}</td>
+                                            <td scope="col">{{SR.points}}</td>
+
+                                            {% if request.user.user_type == '1' or request.user.is_superuser %}
+                                            <td scope="col">{{SR.get_user_type_display}}</td>
+                                            
+                                            {% if SR.is_banned is True %}
+                                            <td scope="col"><a class="btn btn-success btn-sm"
+                                                href="#" onclick="unbanfromdatatable({{SR.pk}})"
+                                                id="colbtn">Un-Ban</a>
+                                            {% else %}
+                                            <td scope="col"><a class="btn btn-warning btn-sm"
+                                                href="#" onclick="banfromdatatable({{SR.pk}})"
+                                                id="colbtn">Ban</a>
+                                            {% endif %}
+                                                
+                                            
+                                            </td>
+                                            <td scope="col"><a class="btn btn-danger btn-sm"
+                                                    href="#" onclick="deletefromdatatable({{SR.pk}})"
+                                                    id="colbtn">Delete</a>
+                                            </td>
+                                            {% endif %}
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- [ Main Content ] end -->
+                <form action="" method="POST" id="formmasterid">
+                    {% csrf_token %}
+                    <input type="hidden" id="hdn_PK" name="pk">
+                    <input type="hidden" id="hdn_ban_pk" name="ban_pk">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+{% endblock javascripts %}

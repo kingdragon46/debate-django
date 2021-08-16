@@ -1,0 +1,99 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Debates {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="pcoded-content">
+    <div class="pcoded-inner-content">
+        <div class="main-body">
+            <div class="page-wrapper">
+                <!-- [ Main Content ] start -->
+                <div class="row">
+
+                    <!-- [ basic-table ] start -->
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Debates</h5>
+
+                            </div>
+                            <div class="card-block table-border-style">
+
+                                {% if request.user.user_type == "1" or request.user.is_superuser %}
+
+                                <div class="table-responsive">
+                                    <table class="text-center table table-bordered" id="tbleCust">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">SR.No</th>
+                                                <th scope="col">Title</th>
+                                                <th scope="col">Description</th>
+                                                <th scope="col">Owner</th>
+                                                <th scope="col">Date Created</th>
+                                                <th scope="col">Winner</th>
+                                                <th scope="col">Debaters</th>
+                                                {% if request.user.user_type == '1' or request.user.is_superuser %}
+                                                <th scope="col">Delete</th>
+                                                {% endif %}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for SR in disc %}
+                                            <tr>
+                                                <td scope="col">
+                                                    {{ forloop.counter }}.</td>
+                                                <td scope="col"><a href="{% url 'discussion' SR.pk%}" target="__blank">{{SR.title}}</a></td>
+                                                <td scope="col">{{SR.text}}</td>
+                                                <td scope="col">{{SR.owner}}</td>
+                                                <td scope="col">{{SR.created_at}}</td>
+                                                <td scope="col">{{SR.winner}}</td>
+                                                <td scope="col">{{SR.participant1}}, {{SR.participant2}}</td>
+                                                {% if request.user.user_type == '1' or request.user.is_superuser %}
+                                                <td scope="col"><a class="btn btn-danger btn-sm"
+                                                    href="#" onclick="deletefromdatatable({{SR.pk}})"
+                                                    id="colbtn">Delete</a>
+                                            </td>
+                                                {% endif %}
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+                                {% else %}
+                                <div class="row">
+                                    {% for SR in disc %}
+                                    <div class="card col-md-4">
+                                        <h5>Title: {{SR.title}}</h5>
+                                        <h5>Title: {{SR.title}}</h5>
+                                        <ul>
+                                            {% for abc in SR.discs.all %}
+                                            <li>{{abc.text}}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ basic-table ] end -->
+                    <!-- [ Main Content ] end -->
+                    <form action="" method="POST" id="formmasterid">
+                        {% csrf_token %}
+                        <input type="hidden" id="hdn_PK" name="pk">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

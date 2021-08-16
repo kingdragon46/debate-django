@@ -1,0 +1,26 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Ui BreadCrumb {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+{% if success %}
+<script>
+    Swal.fire('Success', '{{msg}}', 'success').then((result) => {
+        window.location.href =  '{{url}}';
+    })
+
+</script>
+{% else %}
+<script>
+    Swal.fire('Error', '{{msg}}', 'error');
+</script>
+{% endif %}
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

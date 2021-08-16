@@ -1,0 +1,51 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="pcoded-content">
+    <div class="pcoded-inner-content">
+        <div class="main-body">
+            <div class="page-wrapper">
+                <!-- [ Main Content ] start -->
+                {% if message %}
+                <div class="alert alert-{{class}}">
+                    {{message}}
+                </div>
+                {% endif %}
+
+                <div class="card">
+                    <div class="card-header">
+                        <h5>New Debate Topic</h5>
+                    </div>
+                </div>
+
+                <div class="card-body" style="background-color: blanchedalmond;">
+                    <form role="form" action="" method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-8 my-2">
+                                <label for=""> Title</label>
+                                {{ form.title }}
+                            </div>
+
+                            <div class="col-md-12 my-2">
+                                <label for=""> Description</label>
+                                {{ form.text }}
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-2">Create</button>
+                    </form>
+                </div>
+                <!-- [ Main Content ] end -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

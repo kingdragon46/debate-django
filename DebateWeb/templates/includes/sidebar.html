@@ -1,0 +1,39 @@
+<nav class="pcoded-navbar">
+    <div class="navbar-wrapper">
+        <div class="navbar-brand header-logo d-block text-left">
+
+            <div class="logo scrollto mb-1">
+                <img src="" alt="" class="img-fluid"
+                    style="height:46px;"><br>
+            </div>
+
+            <a class="mobile-menu" id="mobile-collapse" href="javascript:"><span></span></a>
+        </div>
+        <div class="navbar-content scroll-div mb-4">
+            <ul class="nav pcoded-inner-navbar mb-4">
+                <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project"
+                    class="nav-item {% if 'home' in segment %} active {% endif %}">
+                    <a href="/home/" class="nav-link"><span class="pcoded-micon"><i
+                                class="feather icon-home"></i></span><span
+                            class="pcoded-mtext">Dashboard</span></a>
+                </li>
+                
+                {% if request.user.user_type == '1' or request.user.is_superuser %}
+                <li class="nav-item"><a href="{% url 'new_debate' %}" class="nav-link"><span
+                    class="pcoded-micon"><i class="far fa-address-book"></i></span><span
+                    class="pcoded-mtext">Add New Debate</span></a></li>
+                {% endif %}
+                <li class="nav-item"><a href="{% url 'debates' %}" class="nav-link"><span
+                            class="pcoded-micon"><i class="far fa-address-book"></i></span><span
+                            class="pcoded-mtext">Debates</span></a></li>
+                <li class="nav-item"><a href="{% url 'users' %}" class=""><span
+                            class="pcoded-micon"><i class="fas fa-users"></i></i></span><span
+                            class="pcoded-mtext">Users
+                        </span></a></li>
+                <li class="nav-item"><a href="#" class=""><span
+                            class="pcoded-micon"><i class="fas fa-user-cog"></i></span><span
+                            class="pcoded-mtext">Item</span></a></li>
+            </ul>
+        </div>
+    </div>
+</nav>

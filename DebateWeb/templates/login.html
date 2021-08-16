@@ -1,0 +1,62 @@
+{% extends "layouts/base-fullscreen.html" %}
+
+{% block title %} Login {% endblock %}
+
+{% block content %}   
+
+    <div class="auth-wrapper aut-bg-img-side cotainer-fiuid align-items-stretch">
+        <div class="row align-items-center w-100 align-items-stretch">
+            <div class="d-none d-lg-flex col-lg-8 auto-bg-img align-items-center d-flex justify-content-center">
+                <div class="col-md-8">
+                    <h1 class="text-white mb-5">Login in Debate</h1>
+                    <p class="text-white">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 align-items-stret h-100 align-items-center d-flex justify-content-center">
+                <div class=" auth-content text-center">
+                    <div class="mb-4">
+                        <i class="feather icon-unlock auth-icon"></i>
+                    </div>
+                    <h3 class="mb-4">Login</h3>
+                    <span>
+                        {% if msg %}
+                            <span class="mb-0 text-danger">
+                                 {{ msg | safe }}
+                        {% else %}
+                            <span class="mb-0 text-muted">
+                                Add your credentials
+                        {% endif %} 
+                    </span>
+
+                    <br />
+                    <br />
+
+                    <form role="form" method="post" action="">
+
+                        {% csrf_token %}                   
+
+                        <div class="input-group mb-3">
+                            {{ form.email }}
+                        </div>
+                        
+                        <div class="input-group mb-4">
+                            {{ form.password }}
+                        </div>
+                        
+                        <div class="form-group text-left">
+                            <div class="checkbox checkbox-fill d-inline">
+                                <input type="checkbox" name="checkbox-fill-1" id="checkbox-fill-a1" checked="">
+                                <label for="checkbox-fill-a1" class="cr"> Save Details</label>
+                            </div>
+                        </div>
+                        <button type="submit" name="login" class="btn btn-primary shadow-2 mb-4">Login</button>
+
+                    </form>
+
+                    <p class="mb-2 text-muted">New Here? <a href="{% url 'register' %}">Register</a></p>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

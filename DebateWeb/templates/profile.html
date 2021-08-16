@@ -1,0 +1,89 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Profile {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="pcoded-content">
+    <div class="pcoded-inner-content">
+        <div class="main-body">
+            <div class="page-wrapper">
+                <!-- [ Main Content ] start -->
+                {% if message %}
+                <div class="alert alert-{{class}}">
+                    {{message}}
+                </div>
+                {% endif %}
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Profile</h3>
+                        <hr>
+                        <div class="col-md-6">
+
+                            {% if usr.is_banned is True %}
+                            <p style="color: red;"><b>User Is Banned</b></p>
+                            {% endif %}
+
+                        </div>
+                        <div class="col-md-6">
+                            <p><b> Name: {{usr.first_name}}</b></p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><b>Email: {{usr.email}}</b></p>
+                        </div>
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <div class="col-md-6">
+                                <label for="">User Type:</label>
+                                <p><b>{{form.user_type}}</b></p>
+                                <button type="submit" class="btn btn-primary btn-sm mt-2">Update</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card-body" style="background-color: blanchedalmond;">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="">
+                                <h4>Debates participated: {{disc1}}</h4>
+                            </label>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="">
+                                <h4>Debates Won: {{usr.debates_won}} </h4>
+                            </label>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="">
+                                <h4>Debates Lost: {{usr.debates_lost}} </h4>
+                            </label>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="">
+                                <h4>Total points: {{usr.points}}</h4>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <label for=""></label>
+                        <h3>Debates attended</h3></label>
+                        <ul>
+                            {% for dsc in disc %}
+                            <li> <a href="{% url 'discussion' dsc.pk %}">{{dsc.title}}</a> </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <!-- [ Main Content ] end -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

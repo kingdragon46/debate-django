@@ -1,0 +1,178 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Debate {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="pcoded-content">
+    <div class="pcoded-inner-content">
+        <div class="main-body">
+            <div class="page-wrapper">
+                <!-- [ Main Content ] start -->
+                {% if message %}
+                <div class="alert alert-{{class}}">
+                    {{message}}
+                </div>
+                {% endif %}
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-8 my-2">
+                                <label for="">
+                                    <h4>Title: {{disc.title}}</h4>
+                                </label>
+                            </div>
+
+                            <div class="col-md-4 my-2">
+                                <label for="">
+                                    {% if disc.is_closed == 0 %}
+                                    <h5 style="color: green;">Status: Active </h5>
+                                    {% else %}
+                                    <h5 style="color: red;">Status: Closed </h5>
+                                    {% endif %}
+                                </label>
+                            </div>
+
+                            <div class="col-md-12 my-2">
+                                <label for="">
+                                    <h4>Description: {{ disc.text }}</h4>
+                                </label>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <form role="form" action="" method="POST" id="formmasterid">
+                    {% csrf_token %}
+                    <div class="card-body" style="background-color: blanchedalmond;">
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <label for="">
+                                    <h4>For Motion</h4>
+                                </label>
+
+                                {% if disc.participant1 is None and disc.is_closed != 1 %}
+                                <button type="submit" name="formotion"
+                                    class="btn btn-outline-info btn-sm ml-2">Accept</button>
+                                {% endif %}
+
+                                <br>
+                                <ul>
+                                    {% for claim in cl %}
+                                    {% if claim.ctype == "1" %}
+                                    <li>{{claim.text}}</li>
+                                    {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                {% if disc.participant2 is None and disc.is_closed != 1 %}
+                                <button type="submit" name="againstmotion"
+                                    class="btn btn-outline-info btn-sm">Accept</button>
+                                {% endif %}
+                                <label for="">
+                                    <h4>Against Motion</h4>
+                                </label>
+                                <br>
+                                <ul class="float-right">
+                                    {% for claim in cl %}
+                                    {% if claim.ctype == "2" %}
+                                    <li>{{claim.text}}</li>
+                                    {% endif %}
+                                    {% endfor %}
+                                </ul>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span click="like(1)">
+                                    <i class="far fa-thumbs-up mb-2"></i>
+
+                                </span>
+                                <i class="far fa-thumbs-down mb-2 ml-3"></i>
+                                <br>
+                                {% if disc.is_closed == 0 %}
+                                <textarea class="form-control" style="width: 80%;" name="cftext" id="ctext" cols="40" rows="10"></textarea>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <span>
+                                    <i class="far fa-thumbs-up mb-2"></i>
+
+                                    <i class="far fa-thumbs-down mb-2 ml-3"></i>
+                                </span>
+                                <br>
+                                {% if disc.is_closed == 0 %}
+                                <textarea class="form-control float-right" style="width: 80%;" name="catext" id="catext" cols="30" rows="10"></textarea>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row justify-content-center mt-3">
+
+                            {% if request.user.user_type == '3' and disc.is_closed == 0 %}
+                            <button type="submit" name="participant_post" class="btn btn-primary mt-2">Post</button>
+                            {% endif %}
+
+                            {% if request.user.user_type == '1' or request.user.user_type == '2' or request.user.is_superuser %}
+                            <br>
+                            <h5 class="mt-3 mr-2">Choose Winner: </h5>
+                            <select name="winner" id="winner" class="form-control col-md-5 mr-3 mt-1">
+                                <option value="{{disc.participant1}}">{{disc.participant1}}</option>
+                                <option value="{{disc.participant2}}">{{disc.participant2}}</option>
+                            </select>
+                            <label for=""></label>
+                            <input type="number" name="wpoints" placeholder="Points Earned">
+                            <br><br>
+                            <button type="submit" name="admin_post" class="btn btn-primary mt-2 ml-2">Submit</button>
+
+                            {% endif %}
+                        </div>
+
+
+                    </div>
+
+                    <div class="card-body">
+                        <h5>Comments</h5>
+                        <div class="row mx-2">
+                            <input type="text" id="comment" name="comment" class="form-control">
+                            <button type="submit" name="comment_post" class="btn btn-primary mt-2">Comment</button>
+                        </div>
+                        <div class="row mx-2">
+                            <ul class="my-2 col-md-12">
+                                
+                                {% for comm in com %}
+                                <li class="border border-secondary my-2" style="padding-inline: 5px;">
+                                    <label for="">{{comm.owner}}</label> 
+                                    {% if request.user.user_type == '1' or request.user.user_type == '2' or request.user.is_superuser %}
+                                    <a class="btn btn-danger btn-sm float-right mt-2"
+                                        href="#" onclick="deletefromdiscussion({{comm.pk}})"
+                                        id="colbtn">Delete</a>
+                                    {% endif %}
+                                    <p>{{comm.text}}</p> 
+                                </li>
+                                {% endfor %}
+                                    
+                            </ul>
+                        </div>
+                    </div>
+                    <input type="hidden" id="col_com" name="col_com">
+                </form>
+                <!-- [ Main Content ] end -->
+                
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+{% endblock javascripts %}

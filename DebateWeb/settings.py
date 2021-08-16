@@ -93,7 +93,7 @@ DATABASES = {
 }
 
 # DATABASES['default'] = dj_database_url.parse(
-#     'postgres://ewmwojjsxthtqw:315136a6ab6f8abb3540717bc7c3f0a8890c24c830a2d454fed5c29ef839818d@ec2-3-95-85-91.compute-1.amazonaws.com:5432/d70rsg01vmuooo')
+#     'database_url')
 # print(DATABASES)
 
 # Password validation
